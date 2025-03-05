@@ -4,6 +4,7 @@ from pyspark.sql.window import Window
 import os
 
 
+
 def get_spark() -> SparkSession:
     spark = SparkSession.builder.appName("Reddit").getOrCreate()
     return spark
@@ -88,13 +89,17 @@ cluster_time_evolution = df_evolution.groupBy("date", "cluster").agg(count("clus
 cluster_time_evolution_join = cluster_time_evolution.join(df_cluster, "cluster", "left")
 cluster_time_evolution_join = cluster_time_evolution_join.select("date", "cluster", "topic", "count")
 window_spec = Window.partitionBy("cluster").orderBy("date")
-cluster_daily_count = cluster_time_evolution.withColumn("prev_day_count", lag("count").over(window_spec))
+cluster_daily_count = cluster_time_evolution_join.withColumn("prev_day_count", lag("count").over(window_spec))
 cluster_daily_count = cluster_daily_count.withColumn("daily_variation", col("count") - col("prev_day_count"))
 stats = cluster_daily_count.select(mean("daily_variation").alias("mean_var"), stddev("daily_variation").alias("stddev_var")).collect()
 mean_var = stats[0]["mean_var"]
 stddev_var = stats[0]["stddev_var"]
 threshold = mean_var + (3*stddev_var)
+print(mean_var)
+print(threshold)
 anomalies = cluster_daily_count.filter(col("daily_variation") > threshold)
+anomalies = anomalies.orderBy(col("daily_variation").desc())
 print("Evenements marquants : ")
 anomalies.show(10)
-write_in_csv(cluster_daily_count, "evenements_marquants")
+write_in_csv(anomalies, "evenements_marquants.csv")
+write_to_parquet(anomalies, "evenements_marquants.parquet")
