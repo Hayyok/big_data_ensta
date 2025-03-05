@@ -1,5 +1,5 @@
 from pyspark.sql import SparkSession, DataFrame
-from pyspark.sql.functions import col, count, to_date, from_unixtime, lag, mean, stddev
+from pyspark.sql.functions import col, count, to_date, rank, from_unixtime, lag, mean, stddev
 from pyspark.sql.window import Window
 import os
 
@@ -73,33 +73,36 @@ df_subcluster = read_parquet('db/subcluster_and_topic_names.parquet')
 # write_in_csv(subreddit_count, "subreddit_count.csv")
 # write_to_parquet(subreddit_count, "subreddit_count.parquet")
 
-# # Etudie l'évolution des clusters les plus populaires en fonction du temps
-# df_evolution = convert_date(df_post)
-# cluster_time_evolution = df_evolution.groupBy("date", "cluster").agg(count("cluster").alias("count"))
-# cluster_time_evolution_join = cluster_time_evolution.join(df_cluster, "cluster", "left")
-# cluster_time_evolution_join = cluster_time_evolution_join.select("date", "cluster", "topic", "count").orderBy("date", col("count").desc())
-# print("Populatrité des clusters en fonction du temps :")
-# cluster_time_evolution_join.show(10)
-# write_in_csv(cluster_time_evolution_join, "cluster_time_evolution.csv")
-# write_to_parquet(cluster_time_evolution_join, "cluster_time_evolution.parquet")
-
-# Detection d'événements marquants
+# Etudie l'évolution des clusters les plus populaires en fonction du temps
 df_evolution = convert_date(df_post)
 cluster_time_evolution = df_evolution.groupBy("date", "cluster").agg(count("cluster").alias("count"))
 cluster_time_evolution_join = cluster_time_evolution.join(df_cluster, "cluster", "left")
-cluster_time_evolution_join = cluster_time_evolution_join.select("date", "cluster", "topic", "count")
-window_spec = Window.partitionBy("cluster").orderBy("date")
-cluster_daily_count = cluster_time_evolution_join.withColumn("prev_day_count", lag("count").over(window_spec))
-cluster_daily_count = cluster_daily_count.withColumn("daily_variation", col("count") - col("prev_day_count"))
-stats = cluster_daily_count.select(mean("daily_variation").alias("mean_var"), stddev("daily_variation").alias("stddev_var")).collect()
-mean_var = stats[0]["mean_var"]
-stddev_var = stats[0]["stddev_var"]
-threshold = mean_var + (3*stddev_var)
-print(mean_var)
-print(threshold)
-anomalies = cluster_daily_count.filter(col("daily_variation") > threshold)
-anomalies = anomalies.orderBy(col("daily_variation").desc())
-print("Evenements marquants : ")
-anomalies.show(10)
-write_in_csv(anomalies, "evenements_marquants.csv")
-write_to_parquet(anomalies, "evenements_marquants.parquet")
+cluster_time_evolution_join = cluster_time_evolution_join.select("date", "cluster", "topic", "count").orderBy("date", col("count").desc())
+window_spec = Window.partitionBy("date").orderBy(col("count").desc())
+cluster_daily_top = cluster_time_evolution_join.withColumn("rank", rank().over(window_spec))
+cluster_daily_top = cluster_daily_top.filter(col("rank") <= 5).drop("rank")
+print("Populatrité des clusters en fonction du temps :")
+cluster_daily_top.show(10)
+write_in_csv(cluster_daily_top, "cluster_time_evolution.csv")
+write_to_parquet(cluster_daily_top, "cluster_time_evolution.parquet")
+
+# # Detection d'événements marquants
+# df_evolution = convert_date(df_post)
+# cluster_time_evolution = df_evolution.groupBy("date", "cluster").agg(count("cluster").alias("count"))
+# cluster_time_evolution_join = cluster_time_evolution.join(df_cluster, "cluster", "left")
+# cluster_time_evolution_join = cluster_time_evolution_join.select("date", "cluster", "topic", "count")
+# window_spec = Window.partitionBy("cluster").orderBy("date")
+# cluster_daily_count = cluster_time_evolution_join.withColumn("prev_day_count", lag("count").over(window_spec))
+# cluster_daily_count = cluster_daily_count.withColumn("daily_variation", col("count") - col("prev_day_count"))
+# stats = cluster_daily_count.select(mean("daily_variation").alias("mean_var"), stddev("daily_variation").alias("stddev_var")).collect()
+# mean_var = stats[0]["mean_var"]
+# stddev_var = stats[0]["stddev_var"]
+# threshold = mean_var + (3*stddev_var)
+# print(mean_var)
+# print(threshold)
+# anomalies = cluster_daily_count.filter(col("daily_variation") > threshold)
+# anomalies = anomalies.orderBy(col("daily_variation").desc())
+# print("Evenements marquants : ")
+# anomalies.show(10)
+# write_in_csv(anomalies, "evenements_marquants.csv")
+# write_to_parquet(anomalies, "evenements_marquants.parquet")
