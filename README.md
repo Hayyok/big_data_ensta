@@ -250,23 +250,23 @@ En tant qu'autre exemple un peu moins évident on peut remarquer le jour d'une �
 **c) Corrélation entre les clusters**\
 
 Enfin, nous avons cherché à savoir si certains sujets sont liés entre eux. Pour cela nous avons calculer la corrélation entre les différents clusters en fonction de leur popularité. Plus le facteur de corrélation est proche de 1, plus les sujets évoluent de manière similaire dans le classement de popularité au fil du temps. Les 14 clusters les plus corrélés sont les suivants : 
+| Cluster 1                                        | Cluster 2                                        | Correlation         |
+|--------------------------------------------------|--------------------------------------------------|---------------------|
+| Communication and Emotions (id 190)              | Music Streaming and Listening Experience (id 51) | 0.9847988165645469  |
+| relationships (id 157)                           | sexual desire (id 184)                           | 0.9846417502867045  |
+| footwear (id 171)                                | sexual desire (id 184)                           | 0.9844244135255688  |
+| Music Streaming and Listening Experience (id 51) | firearms (id 183)                                | 0.979540655346468   |
+| firearms (id 183)                                | grooming (id 105)                                | 0.9784924500694284  |
+| Communication and Emotions (id 190)              | Relationships and Personal Reflections (id 127)  | 0.9759434646255989  |
+| Communication and Emotions (id 190)              | firearms (id 183)                                | 0.9754872188552838  |
+| Photography Equipment and Film Types (id 39)     | firearms (id 183)                                | 0.974997527842619   |
+| footwear (id 171)                                | relationships (id 157)                           | 0.9746499155434675  |
+| Communication and Emotions (id 190)              | beverages (id 164)                               | 0.9744224236189695  |
+| Relationships and Personal Reflections (id 127)  | firearms (id 183)                                | 0.9742281808059525  |
+| Communication and Emotions (id 190)              | language learning (id 117)                       | 0.9740603619900647  |
+| Communication and Emotions (id 190)              | grooming (id 105)                                | 0.9739243628544884  |
+| Relationships and Personal Reflections (id 127)  | grooming (id 105)                                | 0.9736269450484489  |
 
-│Cluster 1│Cluster 2│Correlation│
-|:-:|:-:|:-:|
-│ Communication and Emotions (id 190)              │ Music Streaming and Listening Experience (id 51) │ 0.9847988165645469 │
-│ relationships (id 157)                           │ sexual desire (id 184)                           │ 0.9846417502867045 │
-│ footwear (id 171)                                │ sexual desire (id 184)                           │ 0.9844244135255688 │
-│ Music Streaming and Listening Experience (id 51) │ firearms (id 183)                                │  0.979540655346468 │
-│ firearms (id 183)                                │ grooming (id 105)                                │ 0.9784924500694284 │
-│ Communication and Emotions (id 190)              │ Relationships and Personal Reflections (id 127)  │ 0.9759434646255989 │
-│ Communication and Emotions (id 190)              │ firearms (id 183)                                │ 0.9754872188552838 │
-│ Photography Equipment and Film Types (id 39)     │ firearms (id 183)                                │  0.974997527842619 │
-│ footwear (id 171)                                │ relationships (id 157)                           │ 0.9746499155434675 │
-│ Communication and Emotions (id 190)              │ beverages (id 164)                               │ 0.9744224236189695 │
-│ Relationships and Personal Reflections (id 127)  │ firearms (id 183)                                │ 0.9742281808059525 │
-│ Communication and Emotions (id 190)              │ language learning (id 117)                       │ 0.9740603619900647 │
-│ Communication and Emotions (id 190)              │ grooming (id 105)                                │ 0.9739243628544884 │
-│ Relationships and Personal Reflections (id 127)  │ grooming (id 105)                                │ 0.9736269450484489 |
 
 On retrouve certains clusters qui n'ont pas l'air d'avoir de thèmes communs, comme "communication et émotions" et "Music". Cela s'explique par la grande popularité de ces thèmes qui, hors événements inhabituels, sont toujours en haut du classements des clusters les plus populaires. 
 ## Conclusion
