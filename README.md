@@ -1,7 +1,3 @@
-Pour Pauline :
-- autres outils utilisés
-- la partie résultats des trucs de corrélation
-
 # Etude de Popularité des Sujets sur Reddit
 
 ## Description du Projet
@@ -265,7 +261,7 @@ Enfin, nous avons cherché à savoir si certains sujets sont liés entre eux. Po
 | Relationships and Personal Reflections (id 127)  | firearms (id 183)                                | 0.9742281808059525  |
 | Communication and Emotions (id 190)              | language learning (id 117)                       | 0.9740603619900647  |
 | Communication and Emotions (id 190)              | grooming (id 105)                                | 0.9739243628544884  |
-| Relationships and Personal Reflections (id 127)  | grooming (id 105)                                | 0.9736269450484489  |
+| Relationships and Personal Reflections (id 127)  | grooming (id 105)                                | 0.9736269450484489"  |
 
 
 On retrouve certains clusters qui n'ont pas l'air d'avoir de thèmes communs, comme "communication et émotions" et "Music". Cela s'explique par la grande popularité de ces thèmes qui, hors événements inhabituels, sont toujours en haut du classements des clusters les plus populaires. 
