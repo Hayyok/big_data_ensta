@@ -139,8 +139,7 @@ def big_event():
     write_in_csv(anomalies, "evenements_marquants.csv")
     write_to_parquet(anomalies, "evenements_marquants.parquet")
 
-
-
+# Calcule la corrélation des clusters
 def correlation_clusters():
     cluster_dic = df_cluster.select("cluster", "topic").rdd.collectAsMap() # Crée un dictionnaire de correspondance entre les cluster et leur nom
     df_evolution = convert_date(df_post) # Convertit la date des posts
@@ -155,7 +154,7 @@ def correlation_clusters():
     corr_matrix = Correlation.corr(df_vector, "features").head()[0]
     corr_array = np.array(corr_matrix.toArray()) # on la transforme en matrcie numpy
     cluster_ids = feature_cols
-    cluster_names = [f"{cluster_dic[int(c)]} (ID {c})" for c in cluster_ids] # On remplace les numéros des clusters par leur nom (on garde l'id parce qu'il semble y avoir des doublons de nom)
+    cluster_names = [f"{cluster_dic[int(c)]} (id {c})" for c in cluster_ids] # On remplace les numéros des clusters par leur nom (on garde l'id parce qu'il semble y avoir des doublons de nom)
     corr_df = pd.DataFrame(corr_array, index=cluster_names, columns=cluster_names) # On crée un df pandas avec la matrice de corrélation
     corr_unstacked = corr_df.unstack().reset_index()
     corr_unstacked.columns = ["Cluster 1", "Cluster 2", "Correlation"]
@@ -164,5 +163,13 @@ def correlation_clusters():
     print("Top 10 des clusters les plus corrélés avec leurs noms :")
     print(corr_unstacked_sorted.head(10))
     corr_unstacked_sorted.to_csv("csv_files/clusters_correlation.csv", index=False) # On sauvegarde le fichier en format csv
+    corr_unstacked_sorted.to_parquet("parquet_files/clusters_correlation.parquet", index=False) # On sauvegarde le fichier en format parquet
 
+
+nb_post_by_cluster()
+nb_post_by_subcluster()
+nb_subcluster_by_cluster()
+post_by_sub()
+cluster_evolution()
+big_event()
 correlation_clusters()
