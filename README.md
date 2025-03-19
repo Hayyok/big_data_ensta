@@ -1,5 +1,5 @@
 Pour Pauline :
-- autre outils utilisés
+- autres outils utilisés
 - la partie résultats des trucs de corrélation
 
 # Etude de Popularité des Sujets sur Reddit
@@ -223,6 +223,7 @@ Cependant il est intéressant de remarquer les thèmes moins populaires qui appa
 |01/01/2023|184|sexual desire|31|
 |01/01/2023|234|cooking and food preparation|28|
 |01/01/2023|165|celebration|25|
+
 Le jour de l'an 2023, on peut remarquer que certains sujets moins récurrents mais cohérents avec l'évènement du jour apparaissent : *celebration* et *cooking and food preparation*.
 
 **b) Les évènements marquants**\
@@ -239,17 +240,23 @@ Ensuite nous avons identifié les jours où un sujet a connu une explosion souda
 |24/12/2020|165|celebration|4646|1627|3019|
 |31/10/2021|70|Halloween celebrations|3789|814|2975|
 |24/02/2022|248|Ukraine-Russia Conflict|3609|712|2897|
+
 Ici on peut voir que les évènements les plus marquants correspondent aux jours de célébration comme Noël ou la St Valentin. On a également le conflit Ukraine-Russie qui a une grosse apparition le jour du début de l'invasion de l'Ukraine par la Russie.
 
-Pour d'autres exemples un peu moins évident on peut remarquer : 
+En tant qu'autre exemple un peu moins évident on peut remarquer le jour d'une éclipse solaire : 
 |date|cluster|topic|count|prev_day_count|daily_variation|
 |:-:|:-:|:-:|:-:|:-:|:-:|
 |21/08/2017|69|space exploration|1513|315|1198|
 
-
-**c) truc de correlation**\
+**c) Corrélation entre les clusters**\
 
 
 ## Conclusion
+Cette étude nous a permis de mieux comprendre les dynamiques de discussion sur Reddit et d’identifier des tendances fortes.
 
 ### Pistes d'amélioration
+Pour aller plus loin dans l’analyse des tendances Reddit, plusieurs axes d’amélioration peuvent être envisagés :
+- **Prévision des futurs sujets populaires** : Anticiper l’évolution de la popularité des sujets et prédire ceux qui émergeront dans les prochaines semaines.
+- **Étude des subreddits les plus proches en termes d’utilisateurs** : En analysant les habitudes de certains utilisateurs (posts/commentaires sur plusieurs subreddits), on pourrait regrouper les subreddits similaires et cartographier les communautés qui partagent des centres d’intérêt communs.
+
+Ces améliorations permettraient d'affiner l'analyse et d'offrir des points de vue plus précis sur les dynamiques de discussion sur Reddit.
